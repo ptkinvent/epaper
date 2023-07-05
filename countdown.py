@@ -20,12 +20,18 @@ def main():
         config = json.load(config)
 
     countdown_date = datetime.datetime.strptime(config['countdown_date'], '%m/%d/%Y').date()
-    heading_text = config['heading']
-    subheading_text = config['subheading']
     fontsize = config['fontsize']
-    prev_delta = 0
     font_heading = ImageFont.truetype('fonts/SourceSansPro.ttf', fontsize)
     font_countdown = ImageFont.truetype('fonts/SourceSansPro.ttf', 144)
+
+    title_before = config['title_before']
+    subtitle_before = config['subtitle_before']
+    title_during = config['title_during']
+    subtitle_during = config['subtitle_during']
+    title_after = config['title_after']
+    subtitle_after = config['subtitle_after']
+
+    prev_delta = 0
     screen = EinkScreen()
 
     while True:
@@ -40,17 +46,17 @@ def main():
             red_image_drawer = ImageDraw.Draw(red_image)
 
             if delta > 0:
-                draw_centered_text(black_image_drawer, 50, heading_text, font_heading)
+                draw_centered_text(black_image_drawer, 50, title_before, font_heading)
                 draw_centered_text(red_image_drawer, 150, f"{delta}", font_countdown)
-                draw_centered_text(black_image_drawer, 350, subheading_text, font_heading)
+                draw_centered_text(black_image_drawer, 350, subtitle_before, font_heading)
             elif delta == 0:
-                draw_centered_text(black_image_drawer, 50, heading_text, font_heading)
+                draw_centered_text(black_image_drawer, 50, title_during, font_heading)
                 draw_centered_text(red_image_drawer, 150, f"{delta}", font_countdown)
-                draw_centered_text(black_image_drawer, 350, subheading_text, font_heading)
+                draw_centered_text(black_image_drawer, 350, subtitle_during, font_heading)
             else:
-                draw_centered_text(black_image_drawer, 50, heading_text, font_heading)
+                draw_centered_text(black_image_drawer, 50, title_after, font_heading)
                 draw_centered_text(red_image_drawer, 150, f"{-delta}", font_countdown)
-                draw_centered_text(black_image_drawer, 350, subheading_text, font_heading)
+                draw_centered_text(black_image_drawer, 350, subtitle_after, font_heading)
 
             screen.draw(black_image, red_image)
             prev_delta = delta
